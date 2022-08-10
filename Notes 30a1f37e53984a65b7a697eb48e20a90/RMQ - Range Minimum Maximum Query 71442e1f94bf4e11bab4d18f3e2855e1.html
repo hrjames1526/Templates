@@ -1,0 +1,766 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>RMQ - Range Minimum/ Maximum Query</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="71442e1f-94bf-4e11-bab4-d18f3e2855e1" class="page sans"><header><div class="page-header-icon undefined"><span class="icon">🥱</span></div><h1 class="page-title">RMQ - Range Minimum/ Maximum Query</h1></header><div class="page-body"><p id="a49e602a-bf60-41eb-8f9f-bcdfe41c31f5" class="">
+</p><h1 id="f6071c3d-960f-42d6-a784-564a1ddbb925" class="">Template</h1><pre id="88f8169c-afa4-4f1c-a551-f64b6f52d389" class="code"><code>#include&lt;bits/stdc++.h&gt;
+using namespace std;
+int n;
+const int N = 1e5 + 5;
+int a[N];
+int main() {
+	ios_base::sync_with_stdio(false);
+	cin.tie(0); cout.tie(0);
+	cin &gt;&gt; n;	
+	int fmax[n + 1][25], fmin[n + 1][25];
+	int m = (int)(log2(n));
+	for (int i = 1; i &lt;= n; ++i) {
+		cin &gt;&gt; a[i];
+		fmax[i][0] = a[i];
+		fmin[i][0] = a[i];
+	}
+	for (int k = 1; k &lt;= m; ++k)
+		for (int i = 1; i + (1 &lt;&lt; k) - 1 &lt;= n; ++i) {
+			fmax[i][k] = max(fmax[i][k - 1], fmax[i + (1 &lt;&lt; (k - 1))][k - 1]);
+			fmin[i][k] = min(fmin[i][k - 1], fmin[i + (1 &lt;&lt; (k - 1))][k - 1]);
+		}
+	int t; cin &gt;&gt; t;
+	while (t--) {
+		int u, v;
+		cin &gt;&gt; u &gt;&gt; v;
+		int k = (int)log2(v - u + 1);
+		int x = max(fmax[u][k], fmax[v - (1 &lt;&lt; k) + 1][k]);
+		int y = min(fmin[u][k], fmin[v - (1 &lt;&lt; k) + 1][k]);
+		cout &lt;&lt; x &lt;&lt; &quot; &quot; &lt;&lt; y &lt;&lt; &#x27;\n&#x27;;
+	}
+}</code></pre><p id="eab74321-e6ba-4c43-8ba9-1010d3eccd01" class="">
+</p><pre id="b9fd6733-a86c-4531-a4a9-a9dfac051bd5" class="code"><code>#include&lt;bits/stdc++.h&gt;
+using namespace std;
+int m, n;
+int a[501][501];
+int main() {
+	ios_base::sync_with_stdio(false);
+	cin.tie(0); cout.tie(0);
+	cin &gt;&gt; m &gt;&gt; n;
+	int K = (int)log2(m), L = (int)log2(n);
+	int f[m + 1][n + 1][K + 1][L + 1];
+	for (int i = 1; i &lt;= m; ++i) 
+		for (int j = 1; j &lt;= n; ++j) {
+			cin &gt;&gt; a[i][j];
+			f[i][j][0][0] = a[i][j];
+		}
+	for (int l = 1; l &lt;= L; ++l) 
+		for (int i = 1; i &lt;= m; ++i)
+			for (int j = 1; j + ( 1 &lt;&lt; l) - 1 &lt;= n; ++j) 
+				f[i][j][0][l] = min(f[i][j][0][l - 1], f[i][j + (1 &lt;&lt; (l - 1))][0][l - 1]);
+	for (int k = 1; k &lt;= K; ++k) 
+		for (int i = 1; i + (1 &lt;&lt; k) - 1 &lt;= m; ++i)
+			for (int j = 1; j &lt;= n; ++j) 
+				f[i][j][k][0] = min(f[i][j][k - 1][0], f[i + (1 &lt;&lt; (k - 1))][j][k - 1][0]);
+	for (int k = 1; k &lt;= K; ++k)
+		for (int l = 1; l &lt;= L; ++l) 
+			for (int i = 1; i + (1 &lt;&lt; k) - 1 &lt;= m; ++i)
+				for (int j = 1; j + (1 &lt;&lt; l) - 1 &lt;= n; ++j) {
+					int part1 = f[i][j][k - 1][l - 1];
+					int part2 = f[i][j + (1 &lt;&lt; (l - 1))][k - 1][l - 1];
+					int part3 = f[i + (1 &lt;&lt; (k - 1))][j][k - 1][l - 1];
+					int part4 = f[i + (1 &lt;&lt; (k - 1))][j + (1 &lt;&lt; (l - 1))][k - 1][l - 1];
+					f[i][j][k][l] = min({part1, part2, part3, part4});
+				}
+	int q; cin &gt;&gt; q;
+	while (q--) {
+		int u1, v1, u2, v2;
+		cin &gt;&gt; u1 &gt;&gt; v1 &gt;&gt; u2 &gt;&gt; v2;
+		int k = (int)log2(u2 - u1 + 1), l = (int)log2(v2 - v1 + 1);
+		int part1 = f[u1][v1][k][l];
+		int part2 = f[u1][v2 - (1 &lt;&lt; l) + 1][k][l];
+		int part3 = f[u2 - (1 &lt;&lt; k) + 1][v1][k][l];
+		int part4 = f[u2 - (1 &lt;&lt; k) + 1][v2 - (1 &lt;&lt; l) + 1][k][l];
+		int ans = min({part1, part2, part3, part4});
+		cout &lt;&lt; ans &lt;&lt; &#x27;\n&#x27;;	
+	}
+}</code></pre><h1 id="5ebd29be-c9c9-4005-9fea-0df5f88d3024" class="">RMQ 1D</h1><p id="2def45f2-7fe1-4186-891e-cae91e63626e" class="">
+</p><figure id="b3b5dc1c-15ef-473d-8e5b-8a15d1cd3ae2" class="image"><a href="RMQ%20-%20Range%20Minimum%20Maximum%20Query%2071442e1f94bf4e11bab4d18f3e2855e1/Untitled.png"><img style="width:2204px" src="RMQ%20-%20Range%20Minimum%20Maximum%20Query%2071442e1f94bf4e11bab4d18f3e2855e1/Untitled.png"/></a></figure><p id="5e7d9fa3-6f2a-4843-8b1d-27d62b9c0e50" class="">Làm theo cách bình thường kiểu</p><pre id="e656ba14-1107-4325-8589-4cc95b35e07c" class="code"><code>Set f[i][j] = max(a[i], a[i + 1],..., a[j])</code></pre><p id="481aac50-db63-4c50-9710-fc447d378222" class="">Nếu xây dựng được f ⇒ Trả lời trong O(1) là điều hiển nhiên</p><p id="a214d8ac-ebc5-426b-8f8f-c2d17e79bd4f" class=""><em><strong>Nhược điểm</strong></em></p><ul id="5b1ef969-4d3d-472b-bd86-d8e2236d7e0f" class="bulleted-list"><li style="list-style-type:disc">Tốn nhiều bộ nhớ và không đủ để chạy được, vì làm mảng f[N][N] với f[i][j] là min của đoạn i → j, nếu như với N = 1e5 thì bộ nhớ cần dùng là N x N = 1e10 → quá lớn, không khả thi</li></ul><ul id="dc1360be-4575-49c1-8d59-ddb6f8a8076e" class="bulleted-list"><li style="list-style-type:disc">Độ phức tạp rất cao, hơn cả điểm văn thi GK của bạn</li></ul><p id="8f1e9113-b17d-446d-99f3-0a40090a9941" class="">
+</p><p id="42ec1d52-6529-4427-b371-e7876a5b99a6" class="">⇒ Cần cách tiếp cận khác hay hơi lời hứa của nyc : Sparse Table (bảng thưa)</p><p id="16262af8-745f-4cad-8c4a-2ea8aec29230" class="">Cụ thể</p><pre id="39d40595-656f-4199-8e51-2e8d3c4038a1" class="code"><code>f[i][0] = max(a[i]) = a[i]
+f[i][1] = max(a[i], a[i + 1] (2^1)
+f[i][2] = max(a[i], a[i + 1], a[i + 2], a[i + 3]) (2^2)
+...
+f[i][k] = max(a[i], a[i + 1], a[i + 2],..., a[i + 2^k - 1] (2^k)</code></pre><p id="eb773b3c-9059-4659-8aa8-f73555e15501" class="">Lập bảng f với f[i][k] có nghĩa là min của 2^k số bắt đầu từ i → lưu không quá N * log2N ≈ 1e6 với N = 1e5 ⇒ vừa đủ bộ nhớ mà chương trình có thể đáp ứng</p><p id="6161f6ef-2f35-4a81-870d-0bb23b1479b8" class="">Cách xây dựng mảng f</p><p id="4c477eb9-17c7-4406-9b06-8df80f60d594" class="">Giả sử tính được f[i][0], f[i][1],..., f[i][k - 1] ∀i, tìm f[i][k]</p><figure id="b23faec1-45d0-4a83-9231-4dcdc15dbb88" class="image"><a href="RMQ%20-%20Range%20Minimum%20Maximum%20Query%2071442e1f94bf4e11bab4d18f3e2855e1/Untitled%201.png"><img style="width:767px" src="RMQ%20-%20Range%20Minimum%20Maximum%20Query%2071442e1f94bf4e11bab4d18f3e2855e1/Untitled%201.png"/></a></figure><pre id="a7f4d481-2c9b-42ee-b57b-729dfed28d51" class="code"><code>=&gt; f[i][k] = max(f[i][k - 1], f[i + 2^(k - 1)][k - 1])</code></pre><p id="61decaab-4856-4ce6-a017-4ec3d850b3bb" class="">Làm thế nào để sử dụng f tính max(u, v) với u ≤ v của 1 đoạn bất kỳ?</p><figure id="40073313-f998-400b-a921-1e04ec95c5be" class="image"><a href="RMQ%20-%20Range%20Minimum%20Maximum%20Query%2071442e1f94bf4e11bab4d18f3e2855e1/Untitled%202.png"><img style="width:662px" src="RMQ%20-%20Range%20Minimum%20Maximum%20Query%2071442e1f94bf4e11bab4d18f3e2855e1/Untitled%202.png"/></a></figure><p id="16f974bf-3d17-47f1-9fb5-4dc350a39e42" class="">Cần tìm k lớn nhất sao cho 2^k ≤ v - u + 1 &lt; = &gt; k ≤ log2(v - u + 1)</p><p id="a3b1dd33-f9a2-4630-8430-ea2c961d5730" class="">Ta thấy từ u đến điểm màu đỏ có độ dài là k, và tồn tại 1 đoạn nữa có độ dài k là đoạn điểm màu cam đến v, và tất nhiên 2 đoạn này phải giao nhau, nếu không ta có thể tăng độ dài 1 đoạn lên 1</p><pre id="2aac8e25-7bad-442c-95ab-613834bbec39" class="code"><code>k = log2(v - u + 1)
+max(u, v) = max(f[u][k], f[v - 2^k + 1][k])</code></pre><p id="955c73e5-5218-4d88-9125-e474185b05cc" class="">Code</p><h1 id="9ce96a5f-b40c-49fb-b340-57ce26296289" class="">RMQ 2D</h1><p id="e90da566-2bbe-4661-aa28-0dabe034b262" class="">Đặt f[i][j][k][l] là giá trị nhỏ nhất của HCN</p><figure id="3f8e5fa6-d199-4564-b286-91a79dc564ad" class="image"><a href="RMQ%20-%20Range%20Minimum%20Maximum%20Query%2071442e1f94bf4e11bab4d18f3e2855e1/Untitled%203.png"><img style="width:819px" src="RMQ%20-%20Range%20Minimum%20Maximum%20Query%2071442e1f94bf4e11bab4d18f3e2855e1/Untitled%203.png"/></a></figure><p id="2bf07354-2231-4510-b3d0-b88deca68dfc" class="">Các trường hợp suy biến</p><p id="451ac3f4-168a-4a1f-85e0-9aebfc92e410" class="">TH1/ Thành 1 ô</p><pre id="63cc4381-a21b-4779-90ad-a696d40756db" class="code"><code>f[i][j][0][0] = a[i][j]</code></pre><p id="99f23bd7-67c2-4d14-b2d9-d2f66d439d36" class="">TH2/ Thành 1 hàng</p><pre id="0ab37f5b-ac9d-45b8-a8c5-0a2fb12ae145" class="code"><code>f[i][j][0][l] = min(f[i][j][0][l - 1], f[i][j + 2 ^ (l - 1)][0][l - 1])</code></pre><figure id="3b5ab897-7e2f-421c-8a18-a1b991c37ff1" class="image"><a href="RMQ%20-%20Range%20Minimum%20Maximum%20Query%2071442e1f94bf4e11bab4d18f3e2855e1/Untitled%204.png"><img style="width:624px" src="RMQ%20-%20Range%20Minimum%20Maximum%20Query%2071442e1f94bf4e11bab4d18f3e2855e1/Untitled%204.png"/></a></figure><p id="b4cb7dc3-3962-43f1-bd71-3ae98cfbacbc" class="">TH3/ Thành 1 cột</p><pre id="fe5a739d-06cc-449b-9142-ceb65d6077ae" class="code"><code>f[i][j][k][0] = min(f[i][j][k][0], f[i + 2 ^ (k - 1)][k - 1][0])</code></pre><figure id="877213ac-6cf8-4662-a4a8-df7916472340" class="image"><a href="RMQ%20-%20Range%20Minimum%20Maximum%20Query%2071442e1f94bf4e11bab4d18f3e2855e1/Untitled%205.png"><img style="width:335px" src="RMQ%20-%20Range%20Minimum%20Maximum%20Query%2071442e1f94bf4e11bab4d18f3e2855e1/Untitled%205.png"/></a></figure><p id="21afee5c-3190-48fe-bdf9-525b381af02f" class="">TH4/ Tổng quát</p><pre id="eb83b6d3-adbc-41fb-9f90-3dd0a5141ec0" class="code"><code>I = f[i][j][k - 1][l - 1]
+II = f[i][j + 2 ^ (l - 1)][k - 1][l - 1]
+III = f[i + 2 ^ ( k - 1)][j][k - 1][l - 1]
+IV = f[i + 2 ^ (k - 1)][j + 2 ^ (l - 1)][k - 1][l - 1]
+
+=&gt; f[i][j][k][l] = max(I, II, III, IV)</code></pre><figure id="f9651e13-a5e9-4a03-ad60-0a3212a167c2" class="image"><a href="RMQ%20-%20Range%20Minimum%20Maximum%20Query%2071442e1f94bf4e11bab4d18f3e2855e1/Untitled%206.png"><img style="width:925px" src="RMQ%20-%20Range%20Minimum%20Maximum%20Query%2071442e1f94bf4e11bab4d18f3e2855e1/Untitled%206.png"/></a></figure><p id="a8453c96-52a8-4385-ac3a-a46dba78be11" class="">
+</p><p id="c8bc6d6d-27d5-4580-a842-a89cf7da2e4f" class="">Cách tìm min của (u1, v1, u2, v2)</p><figure id="e9a4a3c8-6316-4212-a993-fa9cf77d116c" class="image"><a href="RMQ%20-%20Range%20Minimum%20Maximum%20Query%2071442e1f94bf4e11bab4d18f3e2855e1/Untitled%207.png"><img style="width:1431px" src="RMQ%20-%20Range%20Minimum%20Maximum%20Query%2071442e1f94bf4e11bab4d18f3e2855e1/Untitled%207.png"/></a></figure><pre id="df95dcf4-aded-4d19-af92-7bd9af25df03" class="code"><code>int k = log2(u2 - u1 + 1)
+int l = log2(v2 - v1 + 1)
+T1 = f[u1][v1][k][l]
+T2 = f[u1][v2 - 2 ^ l + 1][k][l]
+T3 = f[u2 - 2 ^ k + 1][v1][k][l]
+T4 = f[u2 - 2 ^ k - 1][v2 - 2 ^ k + 1][k][l]
+min(u, v) = min(T1, T2, T3, T4)</code></pre><p id="0ef5d5d6-cbe6-43bb-87d5-6eabd1644f2c" class="">Code</p><p id="2d348a75-f9c4-44a0-8f93-0d82f7921c65" class="">
+</p></div></article></body></html>

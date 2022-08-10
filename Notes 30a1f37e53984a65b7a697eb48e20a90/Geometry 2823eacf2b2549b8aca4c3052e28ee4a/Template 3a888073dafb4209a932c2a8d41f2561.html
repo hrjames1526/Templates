@@ -1,0 +1,825 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Template</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="3a888073-dafb-4209-a932-c2a8d41f2561" class="page sans"><header><h1 class="page-title">Template</h1></header><div class="page-body"><h1 id="3c54e147-3252-4135-84c7-52105f6410a5" class="">Các phép toán cơ bản với vector</h1><p id="d094ae9f-c93d-4264-8797-a855052fe72e" class="">Các điểm tọa độ được biểu diễn bằng 1 pair với các thao tác tính toán trên vector hình học (lớp 10)</p><pre id="d8988650-0955-4693-9480-dd4f316e9360" class="code"><code>struct point {
+    double x, y;
+    bool operator &lt; (const point &amp;a) {
+    	return x == a.x ? y &lt; a.y : x &lt; a.y;
+    }
+};
+point operator + (point A, point B) {
+    return {A.x + B.x, A.y + B.y};
+}
+point operator - (point A, point B) {
+    return {A.x - B.x, A.y - B.y};
+}
+double operator * (point A, point B) {
+	return A.x * B.y - B.x * A.y;
+}
+double operator ^ (point A, point B) {
+	return A.x * B.x + A.y * B.y;
+}
+double DisPoint(point A , point B){
+    point C = A - B;
+    return C.x * C.x + C.y * C.y;
+}
+int ccw (point a, point b, point c) {
+    double T = (b - a) * (c - a);
+    if (T &lt; 0) return -1;
+    if (T &gt; 0) return 1;
+    return 0;
+}
+double cross(point A, point B, point C) {
+    return (B - A) * (C - A);
+}
+double area(point x[], int size) {
+    x[size + 1] = x[1];
+    double ans = 0;
+    for (int i = 1; i &lt;= size; ++i) ans += x[i] * x[i + 1];
+    ans /= 2;
+    return ans;
+}
+double DisLine(point A, point B, point C) {
+	double a = DisPoint(B, C);
+	double b = DisPoint(A, C);
+	double c = DisPoint(A, B);
+	if (a * a + c * c &lt; b * b) return c;
+	if (a * a + b * b &lt; c * c) return b;
+	double s = (B - A) * (C - A);
+	return abs(s) / a;
+}
+bool InLine(point a, point b, point c) {
+	int k = (b - a) ^ (c - a);
+	if (ccw(a, b, c) == 0 &amp;&amp; k &lt;= 0) return true;
+	return false;
+}
+point Intersect(point a, point b,  point c, point d) {
+    double a1 = a.y - b.y;
+    double b1 = b.x - a.x;
+    double c1 = -(a1 * a.x + b1 * a.y);
+    double a2 = c.y - d.y;
+    double b2 = d.x - c.x;
+    double c2 = -(a2 * c.x + b2 * c.y);
+    double y2 = (c2 * a1 - c1 * a2) / (b1 * a2 - a1 * b2);
+    double x2;
+    if (a1 != 0) x2 = (-c1 - b1 * y2) / a1;
+    else x2 = (-c2 - b2 * y2) / a2;
+    point p;
+    p.x = x2; p.y = y2;
+    return p;
+}</code></pre><p id="657a96b0-6de0-477e-946b-fa03f6a59db8" class="">
+</p><p id="cbc466d9-5f91-419b-896d-56b7694b55bd" class="">
+</p><p id="65d1245c-22c5-4605-a5c4-1569f6867a54" class="">
+</p><h3 id="7d946ed9-f277-4180-96f4-f75ea7336ad1" class=""><strong>Centroid</strong></h3><p id="ae430fe4-d6a3-461b-b5ce-5cf71572fb29" class="">Using the same convention for vertex coordinates as in the previous section, the coordinates of the centroid of a solid simple polygon are</p><figure id="0a205edf-d202-4ddb-b881-f92dd6829610" class="image"><a href="https://wikimedia.org/api/rest_v1/media/math/render/svg/57f477d4b5dda2c90aa6c903a96cc9e060446d47"><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/57f477d4b5dda2c90aa6c903a96cc9e060446d47"/></a></figure><figure id="864c190c-bf8f-44e3-9efd-0b06385fb0aa" class="image"><a href="https://wikimedia.org/api/rest_v1/media/math/render/svg/d05c26eb6baa06c01383b474d06546a370595bf0"><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/d05c26eb6baa06c01383b474d06546a370595bf0"/></a></figure><p id="597d54ea-7f03-4d83-903e-af512c7e7ce1" class="">
+</p><h1 id="10307753-62fb-4e7f-9736-25ae514fef48" class="">Số phức 😃</h1><pre id="95de9e45-5a4c-4de5-add3-61436a4f08f1" class="code"><code>typedef complex&lt;double&gt; point;
+#define x real()
+#define y imag()
+// complex ios
+istream&amp; operator &gt;&gt; (istream&amp; is, point&amp; p) {
+	double re, im;
+	is &gt;&gt; re &gt;&gt; im;
+	point p1(re, im);
+	p = p1;
+	return is;
+}
+ostream&amp; operator &lt;&lt; (ostream&amp; os, point&amp; p) {
+	double re = p.x, im = p.y;
+	os &lt;&lt; re &lt;&lt; &#x27; &#x27; &lt;&lt; im;
+	return os;
+}
+double operator * (point A, point B) { // Cross product
+	return A.x * B.y  - A.y * B.x;
+}
+double operator ^ (point A, point B) { // Dot product
+	return A.x * B.x + A.y * B.y;
+}
+point operator &amp; (point A, point B) {
+    return {A.x * B.x - A.y * B.y, A.x * B.y + A.y * B.x};
+}
+/* Normal calculcation
+abs(b - a)
+norm(b - a)
+*/
+double cross(point a, point b, point c) {
+	return (b - a) * (c - a);
+}
+int ccw(point a, point b, point c) {
+	double T = cross(a, b, c);
+	if (T &lt; 0) return - 1;
+	if (T &gt; 0) return 1;
+	return 0;
+}
+bool InLine(point A, point B, point C) {
+	int k = (B - A) ^ (C - A);
+	if (ccw(A, B, C) == 0 &amp;&amp; k &lt;= 0) return true;
+	return false;
+}
+double DisLine(point A, point B, point C) {
+	double a = abs(B - C);
+	double b = abs(A - C);
+	double c = abs(A - B);
+	if (a * a + c * c &lt; b * b) return c;
+	if (a * a + b * b &lt; c * c) return b;
+	double s = (B - A) * (C - A);
+	return abs(s) / a;
+}
+/* Point defininition // -0 alert
+ Project p onto vector v : v * dot(p, v) / norm(v)
+ */
+point intersection(point a, point b, point p, point q) {
+	double c1 = (p - a) * (b - a), c2 = (q - a) * (b - a);
+	return (c1 * q - c2 * p) / (c1 - c2);
+}
+point project(point p, point a, point b) {
+	double dot = (p - a) ^ (b - a);
+	return a + (b - a) * dot / norm(b - a);
+}
+point reflect(point p, point a, point b) {
+	return a + conj((p - a) / (b - a)) &amp; (b - a);
+}
+point rotate(point a, point p, double radian) {
+    point k = (a - p) &amp; polar(1.0, radian);
+    return {k.x + p.x, k.y + p.y};
+}
+/* Angle
+Rotation about the origin : a &amp; polar(1.0, θ)
+Rotation about the pivot p : (a - p) &amp; polar(1.0, θ) + p
+Angle of elevation : arg(b - a)
+Slope of line : tan(arg(b - a))
+*/
+double degree(double angle) {
+	return (angle * 180) / acos(-1);
+}
+double rad(double degree) {
+	return (degree * acos(-1)) / 180;
+}
+double angle(point a, point b, point c) {
+	return abs(remainder(arg(a - b) - arg(c - b), 2.0 * acos(-1)));
+}</code></pre><ul id="8c3901af-bc7d-4b40-974c-f6d8a4702942" class="bulleted-list"><li style="list-style-type:disc">Euclidean distance : abs(A - B)</li></ul><ul id="521f2c3e-8fe0-4e0d-a88c-e546c98014a9" class="bulleted-list"><li style="list-style-type:disc">Squared distance : norm(A - B)</li></ul><ul id="8012dee1-38f3-40f8-8aa9-e7c2cee66991" class="bulleted-list"><li style="list-style-type:disc">Angle of elevation : arg(b - a)</li></ul><figure id="55e96911-8e95-4e64-a334-a3a34f7c0779" class="image"><a href="Template%203a888073dafb4209a932c2a8d41f2561/Untitled.png"><img style="width:750px" src="Template%203a888073dafb4209a932c2a8d41f2561/Untitled.png"/></a></figure><ul id="f9fe3bd3-d078-4760-9e87-24aaf8d0e303" class="bulleted-list"><li style="list-style-type:disc">Slope of line : tan(arg(b - a))</li></ul><figure id="ba065a3c-021a-4c4d-a848-4aa8480e401b" class="image"><a href="Template%203a888073dafb4209a932c2a8d41f2561/Untitled%201.png"><img style="width:483px" src="Template%203a888073dafb4209a932c2a8d41f2561/Untitled%201.png"/></a></figure><ul id="9520c8e8-d364-46fa-9449-6f7efa2c0096" class="bulleted-list"><li style="list-style-type:disc">Rotation about the origin : a &amp; polar(1.0, θ)</li></ul><figure id="3ef787bb-9980-4fd2-bfe6-7234ccc6070e" class="image"><a href="Template%203a888073dafb4209a932c2a8d41f2561/Untitled%202.png"><img style="width:592px" src="Template%203a888073dafb4209a932c2a8d41f2561/Untitled%202.png"/></a></figure><ul id="c0b342d0-b18d-4526-afe2-df59265d3ff3" class="bulleted-list"><li style="list-style-type:disc">Rotation about the pivot p : (a - p) &amp; polar(1.0, θ) + p
+</li></ul><figure id="e2dab944-c7c5-41a7-aa17-52c52353d08c" class="image"><a href="Template%203a888073dafb4209a932c2a8d41f2561/Untitled%203.png"><img style="width:775px" src="Template%203a888073dafb4209a932c2a8d41f2561/Untitled%203.png"/></a></figure><ul id="0f6c59db-b110-4a38-9769-41c1ede74b49" class="bulleted-list"><li style="list-style-type:disc">Project p onto vector v : v * dot(p, v) / norm(v)</li></ul><p id="c5d92ccd-a62c-46cf-a6b7-ed0e866c1f18" class="">
+</p></div></article></body></html>
